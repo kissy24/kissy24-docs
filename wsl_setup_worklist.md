@@ -1,0 +1,12 @@
+## wslで施した設定について
+- python3.8の導入
+- pipの導入
+- golangの導入
+- zshの導入
+- oh-my-zshの導入
+  - zsh-syntax-highlightingを導入
+  - export ZSH_DISABLE_COMPFIX=trueで警告を無視
+  - python3, pip3をpython, pipで実行できるようにした
+- workspaceフォルダの作成
+- vscodeとの連携
+- npm, node.js のインストール
