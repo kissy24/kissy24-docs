@@ -2,30 +2,32 @@
 
 ## 設定
 
-### [wslセットアップ覚書](./books/wsl_setup_worklist.md)
+### [wsl セットアップ覚書](./books/wsl_setup_worklist.md)
 
 ---
 
 ## Python
 
-### [Python勉強メモ](./books/Python_勉強メモ.md)
+### [Python 勉強メモ](./books/Python_勉強メモ.md)
 
-### [Pythonの言語仕様について](./books/pythonの言語仕様について.md)
+### [Python の言語仕様について](./books/pythonの言語仕様について.md)
 
 ---
 
 ## GitHub
 
-### [Issueのテンプレートについて](./books/github_issue_design.md)
+### [Issue のテンプレートについて](./books/github_issue_design.md)
+
+### [GitHub Actions から Jira を操作する](./books/GitHubActionsを利用してJiraを操作する.md)
 
 ---
 
 ## 勉強会
 
-### [Docker&GitHubハンズオン](./books/Docker＆Githubハンズオン.md)
+### [Docker&GitHub ハンズオン](./books/Docker＆Githubハンズオン.md)
 
-### [Apache Spark入門](./books/ApacheSpark入門.md)
+### [Apache Spark 入門](./books/ApacheSpark入門.md)
 
-### [matzさんの講演](./books/matz_ruby.md)
+### [matz さんの講演](./books/matz_ruby.md)
 
 ---
