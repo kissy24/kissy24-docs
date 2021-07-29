@@ -1,34 +1,38 @@
-## 2時間でマスターしちゃう Docker＆Github ハンズオン 入門
+## 2 時間でマスターしちゃう Docker＆Github ハンズオン 入門
 
-### docker  
-- スクラップビルドが容易　
-- 軽い　
+### docker
+
+- スクラップビルドが容易
+- 軽い
 - 名称空間が独立
 - プロジェクトの切り替えが簡単
 - どのようなマシンでも環境に関係なく動く
 - 共有
 
-### dockerとVMの違い
-- VM : pc全体をエミュレート
+### docker と VM の違い
+
+- VM : pc 全体をエミュレート
 - docker : ミドルウェアだけエミュレート
 
-### docker備考
-- dockerをstopした状態でないと削除できない
-- コンテナとイメージの違い
-- runとbuildの違い
-- 各ミドルウェアを管理する方法がある
-- docker-compose down : コンテナを止めてコンテナを消す（imageは消えない）
+### docker 備考
 
-### dockerコマンド
-- docker pull ????? : ????? imageを落とす
+- docker を stop した状態でないと削除できない
+- コンテナとイメージの違い
+- run と build の違い
+- 各ミドルウェアを管理する方法がある
+- docker-compose down : コンテナを止めてコンテナを消す（image は消えない）
+
+### docker コマンド
+
+- docker pull ????? : ????? image を落とす
 - docker images :
 - docker run -d -e MYSQL_ROOT_PASSWORD=password --name mysql5.6 mysql:5.6
 - docker ps
-- docker stop コンテナID
+- docker stop コンテナ ID
 - docker ps -a
-- docker start コンテナID
-- docker rm コンテナID
-- docker rmi イメージID
+- docker start コンテナ ID
+- docker rm コンテナ ID
+- docker rmi イメージ ID
 - docker run -d -p 80:80 --name php php:latest
 - docker-compose stop
 - docker-compose start
