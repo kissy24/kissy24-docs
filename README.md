@@ -30,4 +30,6 @@
 
 ### [matz さんの講演](./books/matz_ruby.md)
 
+### [Developers Summit 2021 メモ](./books/DevelopersSummit2021_memo.md)
+
 ---
