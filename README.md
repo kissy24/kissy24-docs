@@ -4,6 +4,8 @@
 
 ### [wsl セットアップ覚書](./books/wsl_setup_worklist.md)
 
+### [新しいPCをセットアップする](./books/new_pc_setup.md)
+
 ---
 
 ## Python
@@ -19,6 +21,12 @@
 ### [Issue のテンプレートについて](./books/github_issue_design.md)
 
 ### [GitHub Actions から Jira を操作する](./books/GitHubActionsを利用してJiraを操作する.md)
+
+---
+
+## Windows OS
+
+### [Windows10が起動しなくなった時の対処法](./books/Windows10が起動しなくなった時の対処法.md)
 
 ---
 
