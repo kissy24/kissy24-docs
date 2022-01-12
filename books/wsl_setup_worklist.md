@@ -38,6 +38,11 @@
    export PATH=$PATH:/usr/local/go/bin
    ```
 
+   ```md
+   別の方法
+   https://github.com/golang/go/wiki/Ubuntu
+   ```
+
 1. `npm`, `node.js`の導入
 
 1. `workspace` ディレクトリを作成
