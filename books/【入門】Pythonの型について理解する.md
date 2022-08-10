@@ -50,7 +50,7 @@ bin(ord('A'))
 - [組み込み型](https://docs.python.org/ja/3/library/stdtypes.html)
 - [コンテナデータ型](https://docs.python.org/ja/3/library/collections.html) : 標準ライブラリ`collections`に含まれています
 
-また、`Numpy`の`ndarray`などの外部ライブラリが提供するデータ構造や自前で実装したデータ構造などが該当します。
+また、`Numpy`の`ndarray`などの外部ライブラリが提供するデータ構造や自前で実装したデータ構造などは複合型に該当します。
 
 そして、これらすべてのデータ型は**オブジェクト**からできています。  
 詳しくは[Pythonのオブジェクトとクラスのビジュアルガイド](https://postd.cc/pythons-objects-and-classes-a-visual-guide/)を読んでみてください。
@@ -147,7 +147,7 @@ DEFAULT_ID: Final[int] = 1
 - C, C++, JavaScript 等
 - 型安全が保たれていない
 
-型安全が保たれていないとどうなるかは下記例を見るとわかります。
+型安全が保たれていないとどうなるかは下記のJavaScriptの例を見ると分かりやすいかと思います。
 
 ```js
 console.log(1 + "1");
