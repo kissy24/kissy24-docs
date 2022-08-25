@@ -4,9 +4,11 @@
 
 皆さんは Python でコーディングする際に、型を意識することはありますか？  
 Python はそういったことを意識せずにある程度コーディング出来てしまうので、多くの初学者は型やオブジェクトを意識せずに書いているのではないでしょうか？  
-本記事はそういった方々がデータ型について、意識する一助になってほしいと思っています。
+本記事はそういった方々でデータ型への意識を上げたいが、どう勉強・転用していいか分からない人向けです。
 
-※ Python のバージョンは`3.11`までを対象とします。
+### 環境
+
+Python: `3.10.4`, mypy: `0.971`, pyright: `1.1.268`
 
 ## 2. 型とは
 
@@ -169,9 +171,9 @@ id = 1
 DEFAULT_ID: Final[int] = 1
 ```
 
-※ ちなみに、`Final`などの型アノテーションを利用する場合、型チェッカーを導入することになると思うのですが、「mypy」を使用するほうが無難です。「Pylance(Pyright)」だと、PEP で定義されたエラーやワーニングが出ないこともあります。 ([PEP-0591](https://peps.python.org/pep-0591/#reference-implementation)参照)  
-ただ Pylance(Pyright)は mypy よりも便利な場面も多いので、私は最近だと Pylance(Pyright)を使っています。  
-Python は型アノテーションだけを提供して後はサードパーティー任せなので、厳密な型導入をしたい場合は別言語を選ぶべきですね。
+※ ちなみに、`Final`などの typing に追加されている型アノテーションを利用する場合、「mypy」を使用するほうが無難です。「Pylance(Pyright)」だと、PEP で定義されたエラーやワーニングが出ないこともあります。 ([PEP-0591](https://peps.python.org/pep-0591/#reference-implementation)参照)  
+ただ Pylance(Pyright)は mypy よりも便利な場面も多いので、私は Pylance(Pyright)を使っています。  
+Python は型アノテーションだけを提供して後はサードパーティー任せているような節があるので、厳密に型判定したい場合は別言語を選ぶべきですね。
 
 ### 4.2. 強い/弱い型付け
 
@@ -319,7 +321,7 @@ LoginForm = namedtuple(
 Python には、インターフェースは存在せず、全て抽象基底クラスで表現することになります。  
 昨今の言語の潮流も踏まえ(クラスなし/インターフェースありが最近流行りの言語ではよく見かける)、インターフェース的な利用をおすすめします。  
 インターフェースで書く際も、簡単な抽象化に留めて mix-in や多重継承は避けましょう。  
-複雑な実装や、抽象クラス的な考え方はそれが出来てからあくまで手段として持っているくらいがちょうどよいです。
+複雑な実装や、抽象クラス的な考え方はそれが出来てからあくまで手段として持っているくらいでちょうどよいです。
 
 ### 5.2. ポリモーフィズム
 
@@ -379,23 +381,131 @@ class PetOwner {
 
 **Nominal Subtyping(名称的部分型付け)**: 親クラス情報が同じ場合、同じメソッドと認識される。
 
-- Java, C#等
 - ポリモーフィズムの縛りが強いため、厳密に実装できる。
-- 静的型付け言語はこちらに該当します。(Go は例外で後述します)
+- 静的型付け言語の多く(Python では)
 
 **ダックタイピング**: どのようなクラスでも、特定のメソッドがあれば同じと認識される。
 
-- Python, Ruby, JavaScript, PHP 等
 - ポリモーフィズムの縛りが少ないため、柔軟に実装できる。
-- 動的型付け言語はこちらに該当します。
+- 動的型付け言語の多く
 
 また、Go のように静的型付け言語でありながらダックタイピングのようなデータ解析ができる言語もあります。これを **Structural Subtyping(構造的部分型付け)** と呼びます。
 
-Python では、`abc.ABC`を使うか`typing.Protocol`を使えばダックタイピングを明示できます。
+Python では、以下の方法でポリモーフィズムを実現できます。
+
+1. 同じ名前のメソッドを作成する。(ダックタイピング)
+
+   ```py
+   class Cat:
+      def bark(self):
+          return "ニャー"
+
+   class Dog:
+      def bark(self):
+          return "ワン"
+
+   def blow_whistle(f) -> None:
+      print(f.bark())
+
+   blow_whistle(Cat())
+   blow_whistle(Dog())
+   ```
+
+   ```sh
+   >>> ニャー
+   >>> ワン
+   ```
+
+2. `abc.ABC`を使い、抽象クラスを作成する。(名称的部分型付け)
+
+   ```py
+   from abc import ABC, abstractmethod
+
+   class Animal(ABC):
+       @abstractmethod
+       def bark(self):
+           ...
+
+   class Cat(Animal):
+       def bark(self):
+           return "ニャー"
+
+   class Dog(Animal):
+       def bark(self):
+           return "ワン"
+
+   def blow_whistle(f: Animal) -> None:
+       print(f.bark())
+
+   blow_whistle(Cat())
+   blow_whistle(Dog())
+   ```
+
+   ```
+   >>> ニャー
+   >>> ワン
+   ```
+
+3. `typing.Protocol`を使い、同じ名前のメソッドを作成する。(構造的部分型付け)
+
+   ```py
+   from typing import Protocol
+
+   class Animal(Protocol):
+       # ここのreturnの型を外すとCat()、Dog()で型の警告が出ます。※1
+       def bark(self) -> str:
+           ...
+
+   class Cat:
+       def bark(self) -> str:
+           return "ニャー"
+
+   class Dog:
+       def bark(self) -> str:
+           return "ワン"
+
+   def blow_whistle(f: Animal) -> None:
+       print(f.bark())
+
+   blow_whistle(Cat())
+   blow_whistle(Dog())
+   ```
+
+   ```sh
+   >>> ニャー
+   >>> ワン
+   ```
+
+   ※1 型の警告を外すと Pylance(pyright)だとこういう感じのエラーがでます。
+
+   ```
+   Argument of type "Cat" cannot be assigned to parameter "f" of type "Animal" in function "blow_whistle"
+   "Cat" is incompatible with protocol "Animal"
+    "bark" is an incompatible type
+      Type "() -> str" cannot be assigned to type "() -> None"
+        Function return type "str" is incompatible with type "None"
+          Type cannot be assigned to type "None"Pylance(reportGeneralTypeIssues)
+   ```
+
+この 3 つのうちどれを使えばよいかという話ですが、1 は本当にメソッド単品でしか評価できないため推奨できません。  
+そのため、2 か 3 を使うことになるのですが、おすすめは 2 かなといった印象です。  
+理由は、3 の`typing.Protocol`は型チェッカー依存で意図したチェックが出る保証がサードパーティーのライブラリに委ねられてしまうためですね。  
+実装にある程度柔軟性を持たせたい場合や、チームで型チェッカーを統一している場合に選択肢になりそうです。  
+2 は融通のない形ですが、Python は動的型付け言語なのである程度かっちり定義できる箇所は定義してしまった方が間違いないかと思います。
 
 ## 6. おわりに
 
 データ型について最低限知っておいてほしいことを解説しました。  
-Python 自体はデータ型について意識がなくてもふわっと書けてしまう言語です。初めて触れる言語が Python だとこういった意識を持つ方が難しいレベルです。  
-私自身も初めての言語が Python で、ある程度書けるようになった後もこういったデータ型の意識を持つことに苦戦しました。  
-そういった方々の一助になれば幸いです。
+最後の方はデータ型というより書き方の話になってしまいましたが、最近は`typing`モジュールの更新が盛んなので簡単に触れました。  
+最近では OOP より関数型プログラミングみたいな流れもあり、データ型というのはより重要なコンテンツになってくると思うので Python エンジニアの方にも興味をまず持ってもらいたいなと思っています。
+
+## 参考
+
+- python.org: https://www.python.org/
+- wikipedia: https://ja.wikipedia.org/wiki/%E3%83%A1%E3%82%A4%E3%83%B3%E3%83%9A%E3%83%BC%E3%82%B8
+- Python のオブジェクトとクラスのビジュアルガイド: https://postd.cc/pythons-objects-and-classes-a-visual-guide/
+- What is Gradual Typing: https://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/
+- What is Gradual Typing: 漸進的型付けとは何か: https://qiita.com/t2y/items/0a604384e18db0944398
+- PEP-591: https://peps.python.org/pep-0591/#reference-implementation
+- C#は強い型付けの言語？それとも弱い型付けの言語？: https://matarillo.hatenadiary.jp/entry/20121017/p1
+- まつもとゆきひろさん、楽しくプログラミングができる Ruby3 の型の提案: https://gihyo.jp/news/report/01/rubykaigi2016/0001
