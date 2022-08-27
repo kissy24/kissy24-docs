@@ -54,3 +54,7 @@
 ### 外部参照
 
 - [モックは必要悪で、しないにこしたことはない](https://blog.8-p.info/ja/2021/10/12/mock/)
+
+## 関数型
+
+- [関数型プログラミングが『銀の弾丸』であるという非常識な常識 2022](https://kentutorialbook.github.io/functionalprogramming2022/)
