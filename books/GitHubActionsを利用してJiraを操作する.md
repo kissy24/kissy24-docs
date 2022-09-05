@@ -2,11 +2,8 @@
 
 ## 1. はじめに
 
-Jira の Task と GitHub の Issue を上手く関連付けしなければ、  
-「GitHub 側では PR まで上がっているが、 Jira 側ではまだ TODO に残っている」  
-等の、2 重管理の手間が発生してしまう。
-
-そのため、Jira と GitHub を連携させ、2 重管理の手間を簡略化させたい。
+JiraとGitHubのタスクが紐づいていない事象を解決するためにしたことを忘備録がてら残しています。
+目的はJira と GitHub を連携させ、2 重管理の手間を簡略化させることです。
 
 ---
 
@@ -41,7 +38,7 @@ GitHub 連携用のプラグインがある。
 
 GitHub Actions で Jira API を利用して Jira を編集する。  
 GitHub ドリブンな場合は恩恵が大きい。  
-GitHub のプランによっては、GitHub Actions の制限にかかる可能性がある。
+他のCI含め、GitHub Actions の利用上限にかかる可能性はある。
 
 ---
 
@@ -89,7 +86,7 @@ types で issue が hogehoge されたとき、のような指定が出来ます
 
 #### 4-1-2. github.event.issue
 
-詳細な使い方や使える属性は調査中…
+この辺りの属性を使ってissue内容をいい感じに取得します。
 
 - title: issue のタイトル
 - body: issue の本文
@@ -115,7 +112,7 @@ Jira にログインします。
 
 #### 4-2-2. Find issue Key
 
-Jira の課題キー(Jira タスクの下らへんにある`HOGE-XXX`)を探して取得します。  
+Jira の課題キー(Jira タスクの下あたりにある`HOGE-XXX`)を探して取得します。  
 `string`にサーチしたい文字列を与えると探して課題キーを取得します。  
 取得した課題キーは`${{ steps.create.outputs.issue }}`で使用できます。
 
@@ -202,4 +199,5 @@ jobs:
 
 ## 5. おわりに
 
-Jira 側からの連携も勉強したい。
+弊社だと`pre-commit`を採用していて、PrefixにJira側のトリガー入れづらいんですよね。。  
+今後、Jira 側からの連携がもう少し融通聞くと嬉しいですね。
