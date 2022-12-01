@@ -1,14 +1,20 @@
-# pytest入門
+# 【Python】pytest入門
 
 ## はじめに
 
-皆さんはPythonでユニットテストをしますか？なんだか小難しいし、コード自体は動くからやらなくても良いと思っていませんか？  
-また、`pytest`でググってもまとまった記事に出会えないから`unittest`を使っているような状況だったりしませんか？  
-そんな方々のためにお送りするのが本稿になります。
+皆さんはPythonでユニットテストをしますか？なんだか小難しいし、コード自体は動くからやらなくても良いと思っていませんか？また、`pytest`でググってもまとまった記事に出会えないから`unittest`を使っているような状況だったりしませんか？そんな方々のためにお送りする記事になります。
+
+本稿では、下記のような読者を想定しています。
+
+- `pytest`が全然分からない・上手く使えない方
+- `unittest`から`pytest`に移行したい方
+- `pytest`の基礎的な使い方を理解したい方
+
+※ ユニットテストが分からない方や`pytest`の細かい使い方は対象外です。  
+「xUnit関連の書籍」や「テスト駆動Python」を本稿を読む前後に読んでみてください。
 
 ### 動作環境
 
-OS: Windows10  
 Python: 3.10.6  
 pytest: 7.1.3  
 
@@ -22,7 +28,7 @@ pip install pytest
 
 次に、プロダクションコードとテストコードをそれぞれ任意のスクリプト内に記述します。
 
-```py::hello.py
+```py:hello_pytest.py
 def hello() -> str:
     return "hello pytest"
 
@@ -53,7 +59,7 @@ hello_pytest.py .                                                          [100%
 > pytest is a mature full-featured Python testing tool that helps you write better programs.  
 > (pytestは、より良いプログラムを書くための成熟した全機能を備えたPythonのテストツールです。)
 
-という Pythonista ならこれ使えと言わんばかりのテストツールです。以下のような特徴を持っています。
+という Python ユーザーならこれ使えと言わんばかりのテストツールです。以下のような特徴を持っています。
 
 - 失敗したassert文の詳細情報の開示
   - unittestの `self.assertHoge` を覚える必要はありません
@@ -68,6 +74,8 @@ hello_pytest.py .                                                          [100%
 Pythonには標準ライブラリに`unittest`というテストライブラリを持っています。  
 しかし、このライブラリは上記の`pytest`のような使いやすさは感じられない気がします。  
 例えば下記ようなコードと実行結果になるのですが、pytestの方が分かりやすいのではないでしょうか？
+
+#### pytest
 
 ```py
 def hello() -> str:
@@ -99,6 +107,8 @@ hello_pytest.py:6: AssertionError
 ============================= short test summary info ============================= 
 FAILED hello_pytest.py::test_hello_pytest - AssertionError: assert 'hello' == 'he...================================ 1 failed in 0.19s ================================ 
 ```
+
+#### unittest
 
 ```py
 import unittest
@@ -133,11 +143,14 @@ Ran 1 test in 0.001s
 また、テストコードも`pytest`の方が簡潔で読みやすいのではないかなと思います。
 
 ちなみに、`pytest`で`unittest`の機能を併用して使うことが可能です。  
-ただし、`unittest`でできることは`pytest`でもできるため、併用はおすすめできないです。
+ただし、`unittest`でできることは基本的に`pytest`でもできるため、併用はおすすめできないです。
 
 ## 2. 実行時設定
 
+`pytest`を実行する際に困るのが、多様なオプションや設定ファイルの多さだと思います。今回は初学者がpytestを実際に利用していく上で重要になりそうな点にフォーカスして説明します。
+
 ### 2.1. 設定ファイル
+
 
 ### 2.2. 実行時オプション
 
@@ -161,9 +174,12 @@ positional arguments:
   - 「`pytest -k "{キーワード}"`」でモジュール名やクラス(関数)名に特定のワードが含まれているものだけをテストする
 
     ```py
+
     ```
 
-2. 
+2. -v オプション
+
+3. -s オプション
 
 ## 3. ファイル構成
 
