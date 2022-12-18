@@ -382,26 +382,112 @@ assertNotEqual(actual, expected)
 assert actual != expected
 ```
 
-ログや例外の違いはありますが、はっきり言って`builtin`の条件式で十分状態がわかるため、`unittest`のような書き方は可読性を下げている気がします…。このように感じている方が多かったのでしょうか、`pytest`では`builtin`の`assert`文そのものを書き換えします。
+ログや例外の違いはありますが、はっきり言って`builtin`の条件式で十分状態がわかるため、`unittest`のような書き方は可読性を下げている気がします…。このように感じている方が多かったのでしょうか、`pytest`では`builtin`の`assert`文そのものを書き換えします。`pytest`の`assertion`パッケージを除いてみると下記のようなフックスクリプトがあります。
 
-{ここにソースコードを書く}
+```py::rewrite.py
+# 分量が多いので処理は割愛しています
+class AssertionRewritingHook(importlib.abc.MetaPathFinder, importlib.abc.Loader):
+    """PEP302/PEP451 import hook which rewrites asserts."""
 
-そのため、`pytest`の`assert`はとても直感的で、リッチなスタックトレースが表示されることになります。
+    def __init__(self, config: Config) -> None:
+      ...
+
+    def set_session(self, session: Optional[Session]) -> None:
+      ...
+
+    # Indirection so we can mock calls to find_spec originated from the hook during testing
+    _find_spec = importlib.machinery.PathFinder.find_spec
+
+    def find_spec(
+        self,
+        name: str,
+        path: Optional[Sequence[Union[str, bytes]]] = None,
+        target: Optional[types.ModuleType] = None,
+    ) -> Optional[importlib.machinery.ModuleSpec]:
+      ...
+```
+
+このような`assert`自体の書き換え処理が内部的に走っているため、`pytest`の`assert`は直感的な文を継承しつつリッチなスタックトレースが表示されることになります。
 
 ### 4.2. pytestでのassertの書き方について
 
 `assert`は下記ような感じで活用します。
 
 ```py
-
 def test_hoge():
   expected = "hoge"
   actual = hoge()
   assert actual == expected
-
 ```
 
-## 5. Marks
+また、一つのテストケースに複数の`assert`を記載することが出来ます。
+
+```py
+def test_hoge():
+  expected = "hoge"
+  actual = hoge()
+  assert actual == expected
+  assert len(expected) == 4
+```
+
+ただし、複数の`assert`を一つのテストケースに入れるのは、テストケースの可読性を損なう原因になるため多用しないことをおすすめします。基本的に、1テスト1アサートでどういう結果になるかを表せるような1つの事に着目できる設計を目指しましょう。
+
+ただ、そうは言っても正しく検証するために、複数の処理、アサートをすべき場合もあります。そういう場合は、`unittest`のようにヘルパー関数を作成し、適用するという手もあります。
+
+```py
+def assert_equal_and_length(actual, expected, length):
+  assert actual == expected
+  assert len(expected) == length
+
+def test_hoge():
+  actual = hoge()
+  assert_equal_and_length(actual, "hoge", 4)
+```
+
+例が雑で申し訳ありませんが、実際にはもっと複雑かつ再利用性のあるものに対しヘルパー関数を作成して使うことがあります。
+
+## 5. marker
+
+### 5.1. markerとは?
+
+`pytest`にはマーカーと呼ばれるデコレータが存在しています。デコレータとは下記のような「関数を引数に取り、関数実行前後に追加処理を付与して返す機能」で、それらを簡単に呼び出す機構です。
+
+```py
+def hoge_decorator(func):
+    def wrapper(*args):
+        print("hoge")
+        result = func(*args)
+        print("hoge")
+        return result
+    return wrapper
+
+@hoge_decorator
+def hello_world():
+  print("hello_world")
+
+hello_world()
+```
+
+```sh
+hoge
+hello_world
+hoge
+```
+
+`pytest`では`@pytest.mark.`で始まるデコレータを標準で提供しています。今回はその中でも重要なマーカーに着目して説明します。重要なマーカーは下記の4種類です。
+
+1. skip
+2. skipif
+3. xfail
+4. parametrize
+
+順に紹介します。
+
+### 5.2. skip(skipif)
+
+### 5.3. xfail
+
+### 5.4. parametrize
 
 ## 6. Fixtures
 
