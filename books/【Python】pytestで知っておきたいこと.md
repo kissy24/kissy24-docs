@@ -510,6 +510,68 @@ def test_hoge():
 
 ### 5.3. xfail
 
+`xfail`はテストケースの一時的な失敗を許可するためのマーカーです。下記のようにマーカーを付けたテストはテストが失敗することが期待されます。(成功すると`XPASS`という予期しない成功通知が出ます)
+
+```py
+@pytest.mark.xfail
+def test_hoge():
+    # True でも同様
+    assert False
+```
+
+ここで気になることといえば、`xfail`と`skip`の使い分けだと思います。下記のサンプルコード実行して出力の違いを見てみましょう。
+
+```py
+import pytest
+
+@pytest.mark.xfail(reason="failed hoge")
+def test_hoge():
+    # True でも同様
+    assert False
+
+@pytest.mark.skip(reason="failed fuga")
+def test_fuga():
+    assert False
+
+def test_piyo():
+    assert False
+```
+
+実行結果です。(見やすいように`pytest -v`で実行しています)
+
+```sh
+=================== test session starts ===================
+platform win32 -- Python 3.9.7, pytest-7.2.0, pluggy-1.0.0 -- C:\Users\yuhei.kishida\AppData\Local\Programs\Python\Python39\python.exe
+cachedir: .pytest_cache
+rootdir: C:\workspace
+collected 3 items
+
+test_hoge.py::test_hoge XFAIL (failed hoge)          [ 33%]
+test_hoge.py::test_fuga SKIPPED (failed fuga)        [ 66%] 
+test_hoge.py::test_piyo FAILED                       [100%] 
+
+======================== FAILURES ========================= 
+________________________ test_piyo ________________________ 
+
+    def test_piyo():
+>       assert False
+E       assert False
+
+test_hoge.py:13: AssertionError
+================= short test summary info ================= 
+FAILED test_hoge.py::test_piyo - assert False
+========= 1 failed, 1 skipped, 1 xfailed in 1.12s ========= 
+```
+
+正直これだけだと`skip`でも`xfail`でも違いがないのではと思いますが、
+
+また、[pytest.org](https://docs.pytest.org/en/7.1.x/how-to/skipping.html)では、`skip`と`xfail`の使い分けについてこう言及しています。
+
+> スキップは、いくつかの条件が満たされた場合にのみテストが成功することを期待し、そうでなければ pytest はテストの実行を完全にスキップする必要があることを意味します。よくある例としては、非 Windows プラットフォームで Windows のみのテストをスキップすることや、現時点で利用できない外部リソース（例えばデータベース）に依存するテストをスキップすることです。  
+xfail は、何らかの理由でテストが失敗することを想定していることを表します。よくある例としては、まだ実装されていない機能に対するテストや、まだ修正されていないバグに対するテストなどがあります。テストが失敗すると予想されるにもかかわらず合格した場合（pytest.mark.xfail でマーク）、それは xpass で、テストの概要に報告されます。
+
+TDDやテストファーストでRedテストを書く際には、`xfail`で書いておくと良いかもしれないですね。
+
 ### 5.4. parametrize
 
 ## 6. Fixtures
