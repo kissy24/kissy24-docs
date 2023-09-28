@@ -2,7 +2,7 @@
 
 ## はじめに
 
-皆さんはPythonでユニットテストをちゃんとしていますか？なんだか小難しいし、コード自体は動くからやらなくても良いと思っていませんか？また、`pytest`でググってもまとまった記事に出会えないから`unittest`を使っているような状況だったりしませんか？そんな方々のためにお送りする記事になります。
+皆さんはPythonでテストコードを書いていますか？なんだか小難しいし、コード自体は動くからやらなくても良いと思っていませんか？また、`pytest`でググってもまとまった記事に出会えないから`unittest`を使っているような状況だったりしませんか？そんな方々のためにお送りする記事になります。
 
 本稿では、下記のような読者を想定しています。
 
@@ -435,16 +435,16 @@ def test_hoge():
 ただ、そうは言っても正しく検証するために、複数の処理、アサートをすべき場合もあります。そういう場合は、`unittest`のようにヘルパー関数を作成し、適用するという手もあります。
 
 ```py
-def assert_equal_and_length(actual, expected, length):
+def assert_hoge(actual, expected, length):
   assert actual == expected
   assert len(expected) == length
 
 def test_hoge():
   actual = hoge()
-  assert_equal_and_length(actual, "hoge", 4)
+  assert_hoge(actual, "hoge", 4)
 ```
 
-例が雑ですが、実際にはもっと複雑かつ再利用性のあるものに対しヘルパー関数を作成して利用することになります。
+例のレベルだとヘルパー関数は正直冗長ですが、実際にはもっと複雑かつ再利用性のあるものに対しヘルパー関数を作成して利用することになります。
 
 ## 5. marker
 
@@ -485,7 +485,92 @@ hoge
 
 ### 5.2. skip(skipif)
 
+`skip`(`skipif`)はテストケースをスキップするためのマーカーです。下記のように理由付きでテストケースを意図的に飛ばすことができます。
+
+```py
+@pytest.mark.skip(reason="hogehoge")
+def test_hoge():
+  ...
+```
+
+`skipif`では第一引数に条件式を取ることができます。その条件式が`True`であればテストケースを意図的に飛ばすことができます。
+
+```py
+@pytest.mark.skipif({条件式},reason="hogehoge")
+def test_hoge():
+  ...
+```
+
+`skip`(`skipif`)を使うタイミングですが、多くは「既知の理由で、テストが必ず失敗する」場合に使われます。例えば、
+
+- モジュールのバージョンアップが原因で特定のバージョンだけテストが失敗する
+- 特定の値がランダムなため、テストが必ず失敗する
+
+そのため、`skip`(`skipif`)は永続的に使われるものではありません。必ずどこかでテストが失敗する理由を保守する必要があります。飛ばせば、全部通るからみたいな元も子もない理由のために使わないでください。
+
 ### 5.3. xfail
+
+`xfail`はテストケースの一時的な失敗を許可するためのマーカーです。下記のようにマーカーを付けたテストはテストが失敗することが期待されます。(成功すると`XPASS`という予期しない成功通知が出ます)
+
+```py
+@pytest.mark.xfail
+def test_hoge():
+    # True でも同様
+    assert False
+```
+
+ここで気になることといえば、`xfail`と`skip`の使い分けだと思います。下記のサンプルコード実行して出力の違いを見てみましょう。
+
+```py
+import pytest
+
+@pytest.mark.xfail(reason="failed hoge")
+def test_hoge():
+    # True でも同様
+    assert False
+
+@pytest.mark.skip(reason="failed fuga")
+def test_fuga():
+    assert False
+
+def test_piyo():
+    assert False
+```
+
+実行結果です。(見やすいように`pytest -v`で実行しています)
+
+```sh
+=================== test session starts ===================
+platform win32 -- Python 3.9.7, pytest-7.2.0, pluggy-1.0.0 -- C:\Users\yuhei.kishida\AppData\Local\Programs\Python\Python39\python.exe
+cachedir: .pytest_cache
+rootdir: C:\workspace
+collected 3 items
+
+test_hoge.py::test_hoge XFAIL (failed hoge)          [ 33%]
+test_hoge.py::test_fuga SKIPPED (failed fuga)        [ 66%] 
+test_hoge.py::test_piyo FAILED                       [100%] 
+
+======================== FAILURES ========================= 
+________________________ test_piyo ________________________ 
+
+    def test_piyo():
+>       assert False
+E       assert False
+
+test_hoge.py:13: AssertionError
+================= short test summary info ================= 
+FAILED test_hoge.py::test_piyo - assert False
+========= 1 failed, 1 skipped, 1 xfailed in 1.12s ========= 
+```
+
+正直これだけだと`skip`でも`xfail`でも違いがないのではと思いますが、
+
+また、[pytest.org](https://docs.pytest.org/en/7.1.x/how-to/skipping.html)では、`skip`と`xfail`の使い分けについてこう言及しています。
+
+> スキップは、いくつかの条件が満たされた場合にのみテストが成功することを期待し、そうでなければ pytest はテストの実行を完全にスキップする必要があることを意味します。よくある例としては、非 Windows プラットフォームで Windows のみのテストをスキップすることや、現時点で利用できない外部リソース（例えばデータベース）に依存するテストをスキップすることです。  
+xfail は、何らかの理由でテストが失敗することを想定していることを表します。よくある例としては、まだ実装されていない機能に対するテストや、まだ修正されていないバグに対するテストなどがあります。テストが失敗すると予想されるにもかかわらず合格した場合（pytest.mark.xfail でマーク）、それは xpass で、テストの概要に報告されます。
+
+TDDやテストファーストでRedテストを書く際には、`xfail`で書いておくと良いかもしれないですね。
 
 ### 5.4. parametrize
 
