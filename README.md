@@ -1,6 +1,9 @@
 # kissy24-docs
 
+![GitHub](https://img.shields.io/github/license/kissy24/kissy24-docs)
+
 執筆記事やワークショップ、メモの記録などをまとめています。
+
 
 ## 1. 記事
 
@@ -20,12 +23,13 @@
 * [DevelopersSummit2021](./doc/workshop/DevelopersSummit2021_memo.md)
 * [Docker＆Githubハンズオン](./doc/workshop/Docker＆Githubハンズオン.md)
 * [【まつもとゆきひろ氏 特別講演】20 代エンジニアのためのプログラマー勉強法](./doc/workshop/matz_ruby.md)
+* [開発生産性カンファレンス2024](./doc/workshop/開発生産性カンファレンス2024.md)
 
 ## 3. メモ
 
 * [github-issueガイド](./doc/memo/github-issueガイド.md)
 * [pipenvの使い方講座](./doc/memo/pipenvの使い方講座.md)
-* [Python勉強メモ](./doc/memo/Python_勉強メモ.md)
+* [雑多勉強メモ](./doc/memo/雑多勉強メモ.md)
 * [PythonのFinal型の注意事項](./doc/memo/PythonのFinal型の注意事項.md)
 * [pythonの言語仕様について](./doc/memo/pythonの言語仕様について.md)
 * [Windows10が起動しなくなった時の対処法](./doc/memo/Windows10が起動しなくなった時の対処法.md)
