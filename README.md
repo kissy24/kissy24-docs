@@ -4,9 +4,33 @@
 
 ## 1. 記事
 
+* [【Pytest】faulthandlerを無効化する](./doc/article/【Pytest】faulthandlerを無効化する.md)
+* [【Python】passとEllipsisの使い分けについて](./doc/article/【Python】passとEllipsisの使い分けについて.md)
+* [【Python】pytestで知っておきたいこと](./doc/article/【Python】pytestで知っておきたいこと.md)
+* [【Python】新人教育でレビューしたこと50選](./doc/article/【Python】新人教育でレビューしたこと50選.md)
+* [GitHubActionsを利用してJiraを操作する](./doc/article/GitHubActionsを利用してJiraを操作する.md)
+* [【入門】Pythonの型について理解する](./doc/article/【入門】Pythonの型について理解する.md)
+* [log_zigを読んでみる](./doc/article/log_zigを読んでみる.md)
+* [space_1on1](./doc/article/space_1on1.md)
+* [コードレビューをする・される前に知っておきたいこと](./doc/article/コードレビューをする・される前に知っておきたいこと.md)
+
 ## 2. ワークショップ
 
+* [ApacheSpark入門](./doc/workshop/ApacheSpark入門.md)
+* [DevelopersSummit2021](./doc/workshop/DevelopersSummit2021_memo.md)
+* [Docker＆Githubハンズオン](./doc/workshop/Docker＆Githubハンズオン.md)
+* [【まつもとゆきひろ氏 特別講演】20 代エンジニアのためのプログラマー勉強法](./doc/workshop/matz_ruby.md)
+
 ## 3. メモ
+
+* [github-issueガイド](./doc/memo/github-issueガイド.md)
+* [pipenvの使い方講座](./doc/memo/pipenvの使い方講座.md)
+* [Python勉強メモ](./doc/memo/Python_勉強メモ.md)
+* [PythonのFinal型の注意事項](./doc/memo/PythonのFinal型の注意事項.md)
+* [pythonの言語仕様について](./doc/memo/pythonの言語仕様について.md)
+* [Windows10が起動しなくなった時の対処法](./doc/memo/Windows10が起動しなくなった時の対処法.md)
+* [wslセットアップリスト](./doc/memo/wslセットアップリスト.md)
+* [新しいPCをセットアップする](./doc/memo/新しいPCをセットアップする.md)
 
 ## 4. Awesome 参考文献
 
@@ -23,3 +47,6 @@
 * [より良いプルリクエストのための10のヒント](https://yakst.com/ja/posts/1625)
 * [開発者が知っておくべきSOLIDの原則](https://postd.cc/solid-principles-every-developer-should-know/)
 * [[Power BI Tips] Power BI でリアルタイムアンケート ～ アンケートを即可視化 2020年版 ～](https://qiita.com/yugoes1021/items/ea4c96cec9f1c7e47347#4-power-automate-%E3%81%A7%E3%83%95%E3%83%AD%E3%83%BC%E3%82%92%E4%BD%9C%E3%82%8B)
+* [スクラムガイド](https://scrumguides.org/docs/scrumguide/v2020/2020-Scrum-Guide-Japanese.pdf)
+* [保守しやすく変化に強いソフトウェアを支える柱　自動テストとテスト駆動開発⁠⁠、その全体像](https://gihyo.jp/article/2024/01/automated-test-and-tdd)
+* [GitHub Copilotは開発者の生産性をどれだけ上げるのか？ZOZOでの全社導入とその効果](https://speakerdeck.com/horie1024/how-much-does-github-copilot-improve-developer-productivity-the-company-wide-implementation-and-its-effects-at-zozo?slide=7)
