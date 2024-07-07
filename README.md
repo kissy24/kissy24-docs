@@ -54,3 +54,4 @@
 * [スクラムガイド](https://scrumguides.org/docs/scrumguide/v2020/2020-Scrum-Guide-Japanese.pdf)
 * [保守しやすく変化に強いソフトウェアを支える柱　自動テストとテスト駆動開発⁠⁠、その全体像](https://gihyo.jp/article/2024/01/automated-test-and-tdd)
 * [GitHub Copilotは開発者の生産性をどれだけ上げるのか？ZOZOでの全社導入とその効果](https://speakerdeck.com/horie1024/how-much-does-github-copilot-improve-developer-productivity-the-company-wide-implementation-and-its-effects-at-zozo?slide=7)
+* [価値創造と開発生産性](https://www.ryuzee.com/contents/blog/14592)
