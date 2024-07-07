@@ -16,6 +16,7 @@
 * [log_zigを読んでみる](./doc/article/log_zigを読んでみる.md)
 * [space_1on1](./doc/article/space_1on1.md)
 * [コードレビューをする・される前に知っておきたいこと](./doc/article/コードレビューをする・される前に知っておきたいこと.md)
+* [SPACEフレームワーク_日本語訳](./doc/article/SPACEフレームワーク_日本語訳.md)
 
 ## 2. ワークショップ
 
